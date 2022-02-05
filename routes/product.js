@@ -19,6 +19,7 @@ router.put("/:id",verifyTokenAndAdmin, async (req, res)=>{
     try{
         const updatedProduct = await Product.findByIdAndUpdate(
             req.params.id,
+            //TODO Add id null check
             {
                 $set:req.body
             },
@@ -27,6 +28,7 @@ router.put("/:id",verifyTokenAndAdmin, async (req, res)=>{
         res.status(200).json(updatedProduct)
     }catch (e) {
         res.status(500).json(e)
+        //TODO create custom API error
     }
 })
 
@@ -55,7 +57,7 @@ router.get("/find/:id", verifyTokenAndAdmin, async (req, res)=>{
 router.get("/", verifyTokenAndAdmin, async (req, res)=>{
     const qNew = req.query.new
     const qCategory = req.query.category
-
+    //TODO add both query params action
     try {
         let products
         if(qNew){

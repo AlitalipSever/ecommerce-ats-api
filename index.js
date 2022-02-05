@@ -18,6 +18,7 @@ mongoose.connect(process.env.MONGO_URL)
     })
 
 app.use(express.json())
+//TODO route not found add
 app.use("/api/users", userRoute)
 app.use("/api/auth", authRoute)
 app.use("/api/products", productRoute)
