@@ -1,36 +1,15 @@
-const {verifyTokenAndAdmin} = require("../routes/verifyToken");
-const Product = require("../models/Product")
 const router = require("express").Router()
 
-//CREATE
-router.post("/", verifyTokenAndAdmin, async (req, res)=>{
-    const newProduct = new Product(req.body)
+const {verifyTokenAndAdmin} = require("../routes/verifyToken");
+const Product = require("../models/Product")
+const {productSave, productUpdate} = require("../controllers/productService")
 
-    try {
-        const savedProduct = await newProduct.save()
-        res.status(200).json(savedProduct)
-    }catch (e) {
-        res.status(500).json(e)
-    }
-})
+
+//CREATE
+router.post("/", verifyTokenAndAdmin, productSave)
 
 //UPDATE
-router.put("/:id",verifyTokenAndAdmin, async (req, res)=>{
-    try{
-        const updatedProduct = await Product.findByIdAndUpdate(
-            req.params.id,
-            //TODO Add id null check
-            {
-                $set:req.body
-            },
-            {new:true}
-        );
-        res.status(200).json(updatedProduct)
-    }catch (e) {
-        res.status(500).json(e)
-        //TODO create custom API error
-    }
-})
+router.put("/:id",verifyTokenAndAdmin, productUpdate)
 
 //DELETE
 router.delete("/:id", verifyTokenAndAdmin, async (req, res) => {
